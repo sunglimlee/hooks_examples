@@ -36,11 +36,13 @@ class _BlueSquareWithStatefulState extends State<BlueSquareWithStateful> with Ti
     );
 
     // 위의 onPressed 와는 아무 관계도 없는 거였어.. 이건 순전히 변경되는 값을 듣고 있다는 뜻이고 그때 콜백함수를 적용할 수 있다는 뜻이라는 거지..
+/*
     _controller1.addListener(() {
       setState(() {
         scale = _controller1.value;
       });
     });
+*/
   }
 
   // dispose 함수 아주 중요하다. 반드시 해주어야한다. 안그러면 메모리 누수가 일어난다.
@@ -57,7 +59,9 @@ class _BlueSquareWithStatefulState extends State<BlueSquareWithStateful> with Ti
       animation: _controller1,
       builder: (context, child) {
         return Transform.scale(
-          scale: scale, // listener 가 있기때문에 setState 가 있기 때문에 이런 연결고리로 인해서 이값이 바뀌어서 rebuild 가 일어난다.
+          // listener 가 있기때문에 setState 가 있기 때문에 이런 연결고리로 인해서 이값이 바뀌어서 rebuild 가 일어난다.
+          // 근데 정작 AnimatedBuilder 는 listenable 객체이므로 addListener 가 필요없이 그냥 animation 객체의 value 를 바로 받으면 된다. 그래서 scale 필요없다.
+          scale: _controller1.value,
           child: child,
         );
       },
